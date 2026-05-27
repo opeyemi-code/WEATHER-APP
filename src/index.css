@@ -25,3 +25,19 @@
   --font-DM-Sans: "DM Sans", sans-serif;
   --font-bricolage: "Bricolage Grotesque", sans-serif;
 }
+
+.heroWeatherCard__bgImg {
+  background-image: url("./assets/images/bg-today-small.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  min-height: 300px;
+  border-radius: 20px;
+}
+
+@media (min-width: 768px) {
+  .heroWeatherCard__bgImg {
+    background-image: url(./assets/images/bg-today-large.svg);
+  }
+}

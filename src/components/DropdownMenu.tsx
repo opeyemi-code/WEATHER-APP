@@ -1,5 +1,4 @@
 import { ChevronDown, Settings } from "lucide-react";
-import React from "react";
 
 function DropdownMenu() {
   return (
