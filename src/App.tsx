@@ -5,23 +5,27 @@ import Hero from "./components/Hero";
 import HeroWeatherCard from "./components/HeroWeatherCard";
 import HourlyForecastGrid from "./components/HourlyForecastGrid";
 import WeatherStatsGrid from "./components/WeatherStatsGrid";
+import { DataProvider } from "./context/DataContext";
+// import DataContext from "./context/DataContext";
 
 function App() {
   return (
-    <div className="px-4 py-6 md:px-16">
-      <Header />
-      <main>
-        <Hero />
-        <section className="md:grid grid-cols-4 gap-3">
-          <div className="col-span-3 grid gap-5">
-            <HeroWeatherCard />
-            <WeatherStatsGrid />
-            <ForecastGrid />
-          </div>
-          <HourlyForecastGrid />
-        </section>
-      </main>
-    </div>
+    <DataProvider>
+      <div className="px-4 py-6 md:px-16">
+        <Header />
+        <main>
+          <Hero />
+          <section className="md:grid grid-cols-4 gap-3">
+            <div className="col-span-3 grid gap-5">
+              <HeroWeatherCard />
+              <WeatherStatsGrid />
+              <ForecastGrid />
+            </div>
+            <HourlyForecastGrid />
+          </section>
+        </main>
+      </div>
+    </DataProvider>
   );
 }
 
