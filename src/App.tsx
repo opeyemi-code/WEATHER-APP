@@ -1,31 +1,18 @@
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import "./App.css";
-import ForecastGrid from "./components/ForecastGrid";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import HeroWeatherCard from "./components/HeroWeatherCard";
-import HourlyForecastGrid from "./components/HourlyForecastGrid";
-import WeatherStatsGrid from "./components/WeatherStatsGrid";
 import { DataProvider } from "./context/DataContext";
+import AppContent from "./components/AppContent";
 // import DataContext from "./context/DataContext";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <DataProvider>
-      <div className="px-4 py-6 md:px-16">
-        <Header />
-        <main>
-          <Hero />
-          <section className="md:grid grid-cols-4 gap-3">
-            <div className="col-span-3 grid gap-5">
-              <HeroWeatherCard />
-              <WeatherStatsGrid />
-              <ForecastGrid />
-            </div>
-            <HourlyForecastGrid />
-          </section>
-        </main>
-      </div>
-    </DataProvider>
+    <QueryClientProvider client={queryClient}>
+      <DataProvider>
+        <AppContent />
+      </DataProvider>
+    </QueryClientProvider>
   );
 }
 
