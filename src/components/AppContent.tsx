@@ -3,6 +3,7 @@ import Header from "./Header";
 import Hero from "./Hero";
 import HeroWeatherCard from "./HeroWeatherCard";
 import HourlyForecastGrid from "./HourlyForecastGrid";
+import WeatherErrorState from "./WeatherErrorState";
 import WeatherStatsGrid from "./WeatherStatsGrid";
 
 function AppContent() {
@@ -10,7 +11,7 @@ function AppContent() {
     <>
       <div className="px-4 py-6 md:px-16">
         <Header />
-        <main>
+        {/* <main>
           <Hero />
           <section className="md:grid grid-cols-4 gap-3">
             <div className="col-span-3 grid gap-5">
@@ -20,7 +21,8 @@ function AppContent() {
             </div>
             <HourlyForecastGrid />
           </section>
-        </main>
+        </main> */}
+        <WeatherErrorState />
       </div>
     </>
   );
