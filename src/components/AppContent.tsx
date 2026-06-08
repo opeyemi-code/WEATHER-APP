@@ -1,30 +1,18 @@
-import ForecastGrid from "./ForecastGrid";
+import useWeather from "@/context/UseWeather";
 import Header from "./Header";
-import Hero from "./Hero";
-import HeroWeatherCard from "./HeroWeatherCard";
-import HourlyForecastGrid from "./HourlyForecastGrid";
-import WeatherErrorState from "./WeatherErrorState";
-import WeatherStatsGrid from "./WeatherStatsGrid";
+import WeatherContent from "./states/WeatherContent";
+import WeatherLoadingState from "./states/WeatherLoadingStates";
+import WeatherErrorState from "./states/WeatherErrorState";
 
 function AppContent() {
+  const { data: weather, isLoading, isError } = useWeather();
   return (
-    <>
-      <div className="px-4 py-6 md:px-16">
-        <Header />
-        {/* <main>
-          <Hero />
-          <section className="md:grid grid-cols-4 gap-3">
-            <div className="col-span-3 grid gap-5">
-              <HeroWeatherCard />
-              <WeatherStatsGrid />
-              <ForecastGrid />
-            </div>
-            <HourlyForecastGrid />
-          </section>
-        </main> */}
-        <WeatherErrorState />
-      </div>
-    </>
+    <div className="px-[5%] py-6 md:px-[10]">
+      <Header />
+      {isLoading && <WeatherLoadingState />}
+      {isError && <WeatherErrorState />}
+      {weather && <WeatherContent />}
+    </div>
   );
 }
 export default AppContent;
