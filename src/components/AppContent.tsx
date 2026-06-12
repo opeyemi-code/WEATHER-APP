@@ -3,14 +3,20 @@ import Header from "./Header";
 import WeatherContent from "./states/WeatherContent";
 import WeatherLoadingState from "./states/WeatherLoadingStates";
 import WeatherErrorState from "./states/WeatherErrorState";
+import { useContext } from "react";
+import DataContext from "@/context/DataContext";
 
 function AppContent() {
   const { data: weather, isLoading, isError } = useWeather();
+  const { locationError } = useContext(DataContext)!;
+
+  console.log(weather);
+
   return (
-    <div className="px-[5%] py-6 md:px-[10]">
+    <div className="px-[5%] py-6">
       <Header />
-      {isLoading && <WeatherLoadingState />}
-      {isError && <WeatherErrorState />}
+      {isLoading && !locationError && <WeatherLoadingState />}
+      {(isError || locationError) && <WeatherErrorState />}
       {weather && <WeatherContent />}
     </div>
   );

@@ -18,4 +18,12 @@ export type DataContextType = {
   setSelectedDay: React.Dispatch<React.SetStateAction<string>>;
   location: LocationType;
   setLocation: React.Dispatch<React.SetStateAction<LocationType>>;
+  locationError: string | null;
+  setLocationError: React.Dispatch<React.SetStateAction<string | null>>;
+  isTemperatureUnit: string;
+  setIsTemperatureUnit: React.Dispatch<React.SetStateAction<string>>;
+  isWindSpeedUnit: string;
+  setIsWindSpeedUnit: React.Dispatch<React.SetStateAction<string>>;
+  isPrecipitationUnit: string;
+  setIsPrecipitationUnit: React.Dispatch<React.SetStateAction<string>>;
 };

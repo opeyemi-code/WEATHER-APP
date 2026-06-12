@@ -11,10 +11,17 @@ export function DataProvider({ children }: ProviderProps) {
     longitude: 0,
     latitude: 0,
   });
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const [isTemperatureUnit, setIsTemperatureUnit] = useState("celsius");
+  const [isWindSpeedUnit, setIsWindSpeedUnit] = useState("km/h");
+  const [isPrecipitationUnit, setIsPrecipitationUnit] = useState("mm");
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success);
+      navigator.geolocation.getCurrentPosition(success, (err) => {
+        // Called when user denies or geolocation fails
+        setLocationError(err.message || "Location access denied");
+      });
 
       function success(position: GeolocationPosition) {
         setLocation({
@@ -22,6 +29,8 @@ export function DataProvider({ children }: ProviderProps) {
           latitude: position.coords.latitude,
         });
       }
+    } else {
+      setLocationError("Geolocation is not supported by your browser");
     }
   }, []);
 
@@ -38,6 +47,14 @@ export function DataProvider({ children }: ProviderProps) {
         setSelectedDay,
         location,
         setLocation,
+        locationError,
+        setLocationError,
+        isTemperatureUnit,
+        setIsTemperatureUnit,
+        isWindSpeedUnit,
+        setIsWindSpeedUnit,
+        isPrecipitationUnit,
+        setIsPrecipitationUnit,
       }}
     >
       {children}
