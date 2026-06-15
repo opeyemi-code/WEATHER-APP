@@ -13,7 +13,7 @@ export function DataProvider({ children }: ProviderProps) {
   });
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isTemperatureUnit, setIsTemperatureUnit] = useState("celsius");
-  const [isWindSpeedUnit, setIsWindSpeedUnit] = useState("km/h");
+  const [isWindSpeedUnit, setIsWindSpeedUnit] = useState("kmh");
   const [isPrecipitationUnit, setIsPrecipitationUnit] = useState("mm");
 
   useEffect(() => {

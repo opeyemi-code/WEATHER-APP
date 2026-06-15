@@ -26,7 +26,7 @@ function Dropdown() {
 
   function toggleWindSpeedUnit(e: React.MouseEvent<HTMLButtonElement>) {
     if (e.currentTarget.className.includes("kilometer-per-hour")) {
-      setIsWindSpeedUnit("km/h");
+      setIsWindSpeedUnit("kmh");
       setIsKilometerPerHour(true);
       setIsMilesPerHour(false);
     } else {
@@ -42,14 +42,14 @@ function Dropdown() {
       setIsMillimeters(true);
       setIsInches(false);
     } else {
-      setIsWindSpeedUnit("in");
+      setIsPrecipitationUnit("inch");
       setIsMillimeters(false);
       setIsInches(true);
     }
   }
 
   return (
-    <div className="absolute z-10 top-8 bg-(--neutral-800) p-2 my-2 text-(--neutral-0) text-sm rounded-sm w-50">
+    <div className="absolute z-10 top-8 bg-(--neutral-800) p-2 my-2 text-(--neutral-0) text-sm rounded-lg w-50 border border-(--neutral-600)">
       <div>
         <button type="button" className="w-full text-left">
           Switch to Imperial

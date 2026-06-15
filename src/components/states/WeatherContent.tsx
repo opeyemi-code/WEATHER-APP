@@ -10,7 +10,7 @@ function WeatherContent() {
       <main>
         <Hero />
         <section className="md:grid grid-cols-4 gap-3">
-          <div className="col-span-3 grid gap-5">
+          <div className="col-span-3 grid gap-5 h-1/2">
             <HeroWeatherCard />
             <WeatherStatsGrid />
             <ForecastGrid />

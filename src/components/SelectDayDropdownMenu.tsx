@@ -2,7 +2,7 @@ import TextButton from "./TextButton";
 
 function SelectDayDropdownMenu() {
   return (
-    <div className="absolute bg-(--neutral-800) mt-2 p-1.5 w-[150px] right-1 rounded-sm">
+    <div className="absolute bg-(--neutral-800) mt-2 p-1.5 w-[150px] right-1 border border-(--neutral-600) rounded-sm">
       <ul role="listbox" className="text-(--neutral-200) text-sm space-y-2">
         <li>
           <TextButton
