@@ -16,7 +16,9 @@ function ForecastGrid() {
       <div className="grid grid-cols-3 md:grid-cols-7 gap-4">
         {weather.daily.temperature_2m_max.map(
           (maxTemp: number, index: number) => {
-            const code = weather.daily.weather_code[index];
+            const code = weather.daily.weather_code[
+              index
+            ] as keyof typeof weatherCodeMap;
 
             return (
               <ForecastCards

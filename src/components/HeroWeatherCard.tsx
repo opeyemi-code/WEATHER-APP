@@ -10,7 +10,7 @@ function HeroWeatherCard() {
     { weekday: "long", year: "numeric", month: "long", day: "numeric" },
   );
 
-  const code = weather.current.weather_code;
+  const code = weather.current.weather_code as keyof typeof weatherCodeMap;
 
   const weatherIcon = weatherCodeMap[code];
   return (
