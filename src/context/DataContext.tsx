@@ -1,9 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import type { DataContextType, ProviderProps } from "../Types/models";
+import { useQuery } from "@tanstack/react-query";
 
 const DataContext = createContext<DataContextType | null>(null);
 
 export function DataProvider({ children }: ProviderProps) {
+  // const { data: geocoding } = useGeocoding;
   const [isUnitDropdownOpen, setIsUnitDropdownOpen] = useState(false);
   const [isSelectDayDropdownOpen, setIsSelectDayDropdownOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState("Tuesday");
@@ -11,30 +13,29 @@ export function DataProvider({ children }: ProviderProps) {
     longitude: 0,
     latitude: 0,
   });
+  const [searchedCity, setSearchedCity] = useState("berlin");
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isTemperatureUnit, setIsTemperatureUnit] = useState("celsius");
   const [isWindSpeedUnit, setIsWindSpeedUnit] = useState("kmh");
   const [isPrecipitationUnit, setIsPrecipitationUnit] = useState("mm");
 
+  const geocodingQuery = useQuery({
+    queryKey: ["geocoding", searchedCity],
+    queryFn: () =>
+      fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${searchedCity}&count=1&language=en&format=json`,
+      ).then((res) => res.json()),
+    enabled: searchedCity.trim().length > 0,
+  });
+
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, (err) => {
-        // Called when user denies or geolocation fails
-        setLocationError(err.message || "Location access denied");
+    if (geocodingQuery.data?.results?.length) {
+      setLocation({
+        latitude: geocodingQuery.data.results[0].latitude,
+        longitude: geocodingQuery.data.results[0].longitude,
       });
-
-      function success(position: GeolocationPosition) {
-        setLocation({
-          longitude: position.coords.longitude,
-          latitude: position.coords.latitude,
-        });
-      }
-    } else {
-      setLocationError("Geolocation is not supported by your browser");
     }
-  }, []);
-
-  useEffect(() => console.log(location), [location]);
+  }, [geocodingQuery.data]);
 
   return (
     <DataContext.Provider
@@ -47,6 +48,8 @@ export function DataProvider({ children }: ProviderProps) {
         setSelectedDay,
         location,
         setLocation,
+        searchedCity,
+        setSearchedCity,
         locationError,
         setLocationError,
         isTemperatureUnit,

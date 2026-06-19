@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 import HourlyForecastCard from "./HourlyForecastCard";
 // import weatherImg from "../assets/images/icon-partly-cloudy.webp";
 import SelectDayDropdownMenu from "./SelectDayDropdownMenu";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import DataContext from "../context/DataContext";
 import useWeather from "@/context/UseWeather";
 import { weatherCodeMap } from "@/utils/weatherCodeMap";
@@ -15,6 +15,7 @@ function HourlyForecastGrid() {
   const currentDay = weather?.current?.time
     ? forecastDays[new Date(weather.current.time).getDay()].day
     : "";
+  const { selectedDay, setSelectedDay } = useState<string>(currentDay);
 
   return (
     <section className="bg-(--neutral-800) py-4 rounded-lg border border-(--neutral-600) h-[50%]">
@@ -37,7 +38,9 @@ function HourlyForecastGrid() {
           </button>
 
           {/* Select Day Dropdown */}
-          {isSelectDayDropdownOpen && <SelectDayDropdownMenu />}
+          {isSelectDayDropdownOpen && (
+            <SelectDayDropdownMenu currentDay={currentDay} />
+          )}
         </div>
       </div>
 

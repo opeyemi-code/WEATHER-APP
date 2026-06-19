@@ -1,9 +1,11 @@
+import useGeocoding from "@/context/UseGeocoding";
 import useWeather from "@/context/UseWeather";
 // import sunnyIcon from "../assets/images/icon-sunny.webp";
 import { weatherCodeMap } from "@/utils/weatherCodeMap";
 
 function HeroWeatherCard() {
   const { data: weather } = useWeather();
+  const { data: geocoding } = useGeocoding();
 
   const currentDay = new Date(weather.current.time).toLocaleDateString(
     "en-us",
@@ -13,12 +15,18 @@ function HeroWeatherCard() {
   const code = weather.current.weather_code as keyof typeof weatherCodeMap;
 
   const weatherIcon = weatherCodeMap[code];
+
+  const city = `${geocoding.results[0].name}, ${geocoding.results[0].country}`;
+
+  // Don't render until both are ready
+  if (!weather || !geocoding?.results?.length) return null;
+
   return (
     <div className="heroWeatherCard__bgImg md:flex items-center">
       <div className="w-[80%] mx-auto pt-10 md:flex justify-between items-center">
         <div className="text-center mb-5 lg:text-left">
           <h2 className="text-(--neutral-200) text-3xl font-semibold">
-            Berlin, Germany
+            {city}
           </h2>
           <p className="text-(--neutral-300) text-sm">{currentDay}</p>
         </div>
