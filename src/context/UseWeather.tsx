@@ -12,20 +12,28 @@ function useWeather() {
   const { location, isTemperatureUnit, isWindSpeedUnit, isPrecipitationUnit } =
     context;
 
+  const { latitude, longitude } = location;
+
   return useQuery({
     queryKey: [
       "weather",
-      location.latitude,
-      location.longitude,
+      latitude,
+      longitude,
       isTemperatureUnit,
       isWindSpeedUnit,
       isPrecipitationUnit,
     ],
-    enabled: location.latitude !== 0 && location.longitude !== 0,
-    queryFn: () =>
-      fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&wind_speed_unit=${isWindSpeedUnit}&precipitation_unit=${isPrecipitationUnit}&temperature_unit=${isTemperatureUnit}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code`,
-      ).then((res) => res.json()),
+
+    enabled: latitude !== 0 && longitude !== 0,
+
+    queryFn: async () => {
+      const res = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&wind_speed_unit=${isWindSpeedUnit}&precipitation_unit=${isPrecipitationUnit}&temperature_unit=${isTemperatureUnit}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code`,
+      );
+
+      return res.json();
+    },
   });
 }
+
 export default useWeather;

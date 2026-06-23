@@ -9,16 +9,16 @@ function useGeocoding() {
     throw new Error("useGeocoding must be used inside DataProvider");
   }
 
-  const { searchedCity } = context;
+  const { searchedInput } = context;
 
   return useQuery({
-    queryKey: ["geocoding", searchedCity],
+    queryKey: ["geocoding", searchedInput],
 
-    enabled: searchedCity.trim().length > 0,
+    enabled: searchedInput.trim().length > 0,
 
     queryFn: () =>
       fetch(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${searchedCity}&count=1&language=en&format=json`,
+        `https://geocoding-api.open-meteo.com/v1/search?name=${searchedInput}&count=4&language=en&format=json`,
       ).then((res) => res.json()),
   });
 }

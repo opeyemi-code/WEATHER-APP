@@ -1,11 +1,11 @@
-import useGeocoding from "@/context/UseGeocoding";
+import DataContext from "@/context/DataContext";
 import useWeather from "@/context/UseWeather";
-// import sunnyIcon from "../assets/images/icon-sunny.webp";
 import { weatherCodeMap } from "@/utils/weatherCodeMap";
+import { useContext } from "react";
 
 function HeroWeatherCard() {
   const { data: weather } = useWeather();
-  const { data: geocoding } = useGeocoding();
+  const { locationInfo } = useContext(DataContext)!;
 
   const currentDay = new Date(weather.current.time).toLocaleDateString(
     "en-us",
@@ -16,10 +16,7 @@ function HeroWeatherCard() {
 
   const weatherIcon = weatherCodeMap[code];
 
-  const city = `${geocoding.results[0].name}, ${geocoding.results[0].country}`;
-
-  // Don't render until both are ready
-  if (!weather || !geocoding?.results?.length) return null;
+  const city = `${locationInfo.city}, ${locationInfo.country}`;
 
   return (
     <div className="heroWeatherCard__bgImg md:flex items-center">

@@ -13,19 +13,25 @@ export function DataProvider({ children }: ProviderProps) {
     longitude: 0,
     latitude: 0,
   });
-  const [searchedCity, setSearchedCity] = useState("berlin");
+  const [city, setCity] = useState("berlin");
+  const [locationInfo, setLocationInfo] = useState({
+    city: "",
+    country: "",
+  });
+  const [searchedInput, setSearchedInput] = useState("");
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isTemperatureUnit, setIsTemperatureUnit] = useState("celsius");
   const [isWindSpeedUnit, setIsWindSpeedUnit] = useState("kmh");
   const [isPrecipitationUnit, setIsPrecipitationUnit] = useState("mm");
+  const [isSearchSuggestionOpen, setIsSearchSuggestionOpen] = useState(false);
 
   const geocodingQuery = useQuery({
-    queryKey: ["geocoding", searchedCity],
+    queryKey: ["geocoding", city],
     queryFn: () =>
       fetch(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${searchedCity}&count=1&language=en&format=json`,
+        `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=en&format=json`,
       ).then((res) => res.json()),
-    enabled: searchedCity.trim().length > 0,
+    enabled: city.trim().length > 0,
   });
 
   useEffect(() => {
@@ -34,8 +40,14 @@ export function DataProvider({ children }: ProviderProps) {
         latitude: geocodingQuery.data.results[0].latitude,
         longitude: geocodingQuery.data.results[0].longitude,
       });
+      setLocationInfo({
+        city: geocodingQuery.data.results[0].name,
+        country: geocodingQuery.data.results[0].country,
+      });
     }
-  }, [geocodingQuery.data]);
+  }, [geocodingQuery.data, city]);
+
+  // useEffect(() => console.log(locationInfo));
 
   return (
     <DataContext.Provider
@@ -48,8 +60,10 @@ export function DataProvider({ children }: ProviderProps) {
         setSelectedDay,
         location,
         setLocation,
-        searchedCity,
-        setSearchedCity,
+        city,
+        setCity,
+        locationInfo,
+        setLocationInfo,
         locationError,
         setLocationError,
         isTemperatureUnit,
@@ -58,6 +72,10 @@ export function DataProvider({ children }: ProviderProps) {
         setIsWindSpeedUnit,
         isPrecipitationUnit,
         setIsPrecipitationUnit,
+        isSearchSuggestionOpen,
+        setIsSearchSuggestionOpen,
+        searchedInput,
+        setSearchedInput,
       }}
     >
       {children}

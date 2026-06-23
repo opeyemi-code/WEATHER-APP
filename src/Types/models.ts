@@ -9,6 +9,11 @@ type LocationType = {
   latitude: number;
 };
 
+type LocationInfoType = {
+  city: string;
+  country: string;
+};
+
 export type DataContextType = {
   isUnitDropdownOpen: boolean;
   setIsUnitDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,8 +23,10 @@ export type DataContextType = {
   setSelectedDay: React.Dispatch<React.SetStateAction<string>>;
   location: LocationType;
   setLocation: React.Dispatch<React.SetStateAction<LocationType>>;
-  searchedCity: string;
-  setSearchedCity: React.Dispatch<React.SetStateAction<string>>;
+  city: string;
+  setCity: React.Dispatch<React.SetStateAction<string>>;
+  locationInfo: LocationInfoType;
+  setLocationInfo: React.Dispatch<React.SetStateAction<LocationInfoType>>;
   locationError: string | null;
   setLocationError: React.Dispatch<React.SetStateAction<string | null>>;
   isTemperatureUnit: string;
@@ -28,4 +35,8 @@ export type DataContextType = {
   setIsWindSpeedUnit: React.Dispatch<React.SetStateAction<string>>;
   isPrecipitationUnit: string;
   setIsPrecipitationUnit: React.Dispatch<React.SetStateAction<string>>;
+  isSearchSuggestionOpen: boolean;
+  setIsSearchSuggestionOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  searchedInput: string;
+  setSearchedInput: React.Dispatch<React.SetStateAction<string>>;
 };

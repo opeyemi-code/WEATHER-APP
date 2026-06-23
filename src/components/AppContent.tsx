@@ -5,11 +5,9 @@ import WeatherLoadingState from "./states/WeatherLoadingStates";
 import WeatherErrorState from "./states/WeatherErrorState";
 import { useContext } from "react";
 import DataContext from "@/context/DataContext";
-import useGeocoding from "@/context/useGeocoding";
 
 function AppContent() {
   const { data: weather, isLoading, isError } = useWeather();
-  const { data: geocoding } = useGeocoding;
   const { locationError } = useContext(DataContext)!;
 
   return (
