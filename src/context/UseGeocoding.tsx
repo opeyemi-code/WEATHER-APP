@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import DataContext from "./DataContext";
+import type { GeocodingResponse } from "@/Types/models";
 
 function useGeocoding() {
   const context = useContext(DataContext);
@@ -11,7 +12,7 @@ function useGeocoding() {
 
   const { searchedInput } = context;
 
-  return useQuery({
+  return useQuery<GeocodingResponse>({
     queryKey: ["geocoding", searchedInput],
 
     enabled: searchedInput.trim().length > 0,

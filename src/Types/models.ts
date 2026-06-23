@@ -40,3 +40,29 @@ export type DataContextType = {
   searchedInput: string;
   setSearchedInput: React.Dispatch<React.SetStateAction<string>>;
 };
+
+// Geocoding.ts
+
+export type GeocodingResult = {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  elevation?: number;
+  country: string;
+  country_code: string;
+  admin1?: string;
+  admin2?: string;
+  admin3?: string;
+  admin4?: string;
+  timezone?: string;
+  population?: number;
+  postcodes?: string[];
+  feature_code?: string;
+};
+export type GeocodingResponse = {
+  results?: GeocodingResult[];
+  generationtime_ms: number;
+};
+
+export type SearchedResults = GeocodingResult[];

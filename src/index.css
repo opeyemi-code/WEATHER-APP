@@ -36,6 +36,10 @@
   border-radius: 20px;
 }
 
+.custom-loader:nth-child(2) {
+  border: red 1px solid;
+}
+
 @media (min-width: 768px) {
   .heroWeatherCard__bgImg {
     background-image: url(./assets/images/bg-today-large.svg);

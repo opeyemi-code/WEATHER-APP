@@ -1,6 +1,7 @@
 import { ChevronDown, Minus } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import Hero from "../Hero";
+import { ThreeDots } from "react-loader-spinner";
 
 function WeatherLoadingState() {
   return (
@@ -9,7 +10,19 @@ function WeatherLoadingState() {
       <div className="lg:grid grid-cols-4 gap-3">
         <section className="col-span-3 grid gap-5">
           {/* Weather Hero Skeleton Card */}
-          <Skeleton className="w-full h-60 bg-(--neutral-800)" />
+          <Skeleton className="w-full h-60 bg-(--neutral-800) text-(--neutral-300) flex flex-col justify-center items-center">
+            <ThreeDots
+              height="60"
+              width="60"
+              radius="9"
+              color="#D3D3D3"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{ margin: "0 20px" }}
+              wrapperClass="custom-loader"
+              visible={true}
+            />
+            <p>Loading...</p>
+          </Skeleton>
           {/* Weather Stats skeleton card */}
           <div className="grid grid-cols-2 my-4 gap-5 md:grid-cols-4">
             <Skeleton className="w-full h-25 bg-(--neutral-800) pl-4 flex flex-col justify-evenly">

@@ -1,11 +1,16 @@
 import DataContext from "@/context/DataContext";
+import type { GeocodingResult, SearchedResults } from "@/Types/models";
 import { useContext } from "react";
 
-function SearchSuggestions({ searchedResults }) {
+function SearchSuggestions({
+  searchedResults,
+}: {
+  searchedResults: SearchedResults;
+}) {
   const { setLocation, setLocationInfo, setIsSearchSuggestionOpen } =
     useContext(DataContext)!;
 
-  function getLocation(city) {
+  function getLocation(city: GeocodingResult) {
     const newLocation = {
       longitude: city.longitude,
       latitude: city.latitude,
