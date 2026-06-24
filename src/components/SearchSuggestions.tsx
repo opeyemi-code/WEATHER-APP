@@ -1,14 +1,21 @@
 import DataContext from "@/context/DataContext";
 import type { GeocodingResult, SearchedResults } from "@/Types/models";
 import { useContext } from "react";
+import SearchedresultsLoadingState from "./SearchedresultsLoadingState";
 
 function SearchSuggestions({
   searchedResults,
+  isLoading,
 }: {
   searchedResults: SearchedResults;
+  isLoading: boolean;
 }) {
-  const { setLocation, setLocationInfo, setIsSearchSuggestionOpen } =
-    useContext(DataContext)!;
+  const {
+    setSearchedInput,
+    setLocation,
+    setLocationInfo,
+    setIsSearchSuggestionOpen,
+  } = useContext(DataContext)!;
 
   function getLocation(city: GeocodingResult) {
     const newLocation = {
@@ -23,12 +30,13 @@ function SearchSuggestions({
     });
 
     setIsSearchSuggestionOpen(false);
+    setSearchedInput("");
   }
 
   return (
-    <div
-      className={`absolute mt-3 bg-(--neutral-800) w-full p-2 rounded-lg border border-(--neutral-600)`}
-    >
+    <div className="absolute mt-3 bg-(--neutral-800) w-full p-2 rounded-lg border border-(--neutral-600)">
+      {isLoading && <SearchedresultsLoadingState />}
+
       <ul className="text-(--neutral-200) text-sm space-y-3">
         {searchedResults.map((city) => (
           <li

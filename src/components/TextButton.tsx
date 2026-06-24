@@ -6,9 +6,10 @@ function TextButton({
   text: string;
   role?: string;
   className?: string;
+  onClick?: React.DOMAttributes<HTMLButtonElement>;
 }) {
   return (
-    <button className={className} role={role} type="button">
+    <button className={className} onClick={onClick} role={role} type="button">
       {text}
     </button>
   );

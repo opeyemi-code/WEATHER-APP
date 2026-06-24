@@ -5,15 +5,16 @@ import DataContext from "@/context/DataContext";
 import useGeocoding from "@/context/UseGeocoding";
 
 function Hero() {
-  const { data: geocoding } = useGeocoding();
+  const { data: geocoding, isLoading } = useGeocoding();
   const {
     searchedInput,
     setSearchedInput,
+    setCity,
     isSearchSuggestionOpen,
     setIsSearchSuggestionOpen,
   } = useContext(DataContext)!;
 
-  const filteredSearched =
+  const filteredSearch =
     geocoding?.results?.filter((search) =>
       search.name.toLowerCase().includes(searchedInput.trim().toLowerCase()),
     ) ?? [];
@@ -24,7 +25,7 @@ function Hero() {
     if (value.length >= 0) {
       setSearchedInput(value);
 
-      setIsSearchSuggestionOpen(value.trim().length >= 3);
+      setIsSearchSuggestionOpen(value.trim().length >= 0);
     }
   }
 
@@ -33,6 +34,13 @@ function Hero() {
       setIsSearchSuggestionOpen(false);
     }, 150);
   }
+
+  function handleSearchButton() {
+    setCity(searchedInput);
+    setSearchedInput("");
+  }
+
+  // useEffect(() => console.log(city));
 
   return (
     <section className="flex flex-col items-center justify-center my-15 mx-auto lg:w-[70%]">
@@ -57,12 +65,16 @@ function Hero() {
             className="absolute top-4.5 left-3 text-(--neutral-300)"
           />
           {isSearchSuggestionOpen && (
-            <SearchSuggestions searchedResults={filteredSearched} />
+            <SearchSuggestions
+              searchedResults={filteredSearch}
+              isLoading={isLoading}
+            />
           )}
         </label>
         <button
           className="bg-(--blue-500) block font-medium text-(--neutral-200) px-3 py-2.5 rounded-lg w-full shrink-3 hover:cursor-pointer focus:outline-none"
           type="button"
+          onClick={handleSearchButton}
         >
           Search
         </button>

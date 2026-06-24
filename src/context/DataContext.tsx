@@ -47,8 +47,6 @@ export function DataProvider({ children }: ProviderProps) {
     }
   }, [geocodingQuery.data, city]);
 
-  // useEffect(() => console.log(locationInfo));
-
   return (
     <DataContext.Provider
       value={{
