@@ -24,6 +24,7 @@ export function DataProvider({ children }: ProviderProps) {
   const [isWindSpeedUnit, setIsWindSpeedUnit] = useState("kmh");
   const [isPrecipitationUnit, setIsPrecipitationUnit] = useState("mm");
   const [isSearchSuggestionOpen, setIsSearchSuggestionOpen] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const geocodingQuery = useQuery({
     queryKey: ["geocoding", city],
@@ -46,6 +47,22 @@ export function DataProvider({ children }: ProviderProps) {
       });
     }
   }, [geocodingQuery.data, city]);
+
+  useEffect(() => {
+    if (!("geolocation" in navigator)) {
+      console.log("Geolocation is not supported by this browser");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      () => {
+        console.log("Permission granted");
+      },
+      (error) => {
+        console.log("Permission denied:", error.message);
+      },
+    );
+  }, []);
 
   return (
     <DataContext.Provider
@@ -74,6 +91,8 @@ export function DataProvider({ children }: ProviderProps) {
         setIsSearchSuggestionOpen,
         searchedInput,
         setSearchedInput,
+        isSearchFocused,
+        setIsSearchFocused,
       }}
     >
       {children}

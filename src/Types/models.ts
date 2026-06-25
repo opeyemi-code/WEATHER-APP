@@ -39,6 +39,8 @@ export type DataContextType = {
   setIsSearchSuggestionOpen: React.Dispatch<React.SetStateAction<boolean>>;
   searchedInput: string;
   setSearchedInput: React.Dispatch<React.SetStateAction<string>>;
+  isSearchFocused: boolean;
+  setIsSearchFocused: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 // Geocoding.ts

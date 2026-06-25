@@ -12,6 +12,7 @@ function Hero() {
     setCity,
     isSearchSuggestionOpen,
     setIsSearchSuggestionOpen,
+    setIsSearchFocused,
   } = useContext(DataContext)!;
 
   const filteredSearch =
@@ -29,9 +30,17 @@ function Hero() {
     }
   }
 
+  // function handleFocus() {
+  //   if (searchedInput) {
+  //     setIsSearchSuggestionOpen(true);
+  //     setIsSearchFocused(true);
+  //   }
+  // }
+
   function handleBlur() {
     setTimeout(() => {
       setIsSearchSuggestionOpen(false);
+      setIsSearchFocused(false);
     }, 150);
   }
 
@@ -51,7 +60,10 @@ function Hero() {
         <label className="relative w-full" htmlFor="search-box">
           <input
             onChange={handleChange}
-            onFocus={() => searchedInput && setIsSearchSuggestionOpen(true)}
+            onFocus={() => {
+              setIsSearchSuggestionOpen(true);
+              setIsSearchFocused(true);
+            }}
             onBlur={handleBlur}
             className="bg-(--neutral-700) text-(--neutral-0) block w-full placeholder:text-(--neutral-300) text-sm pl-9 py-3.5 rounded-lg grow focus:outline-(--neutral-0) focus:outline-1"
             value={searchedInput}
