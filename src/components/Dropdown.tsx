@@ -1,6 +1,6 @@
 import DataContext from "@/context/DataContext";
 import { Check } from "lucide-react";
-import { useContext, useEffect, useState, type MouseEventHandler } from "react";
+import { useContext, useEffect, useState } from "react";
 
 function Dropdown() {
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
