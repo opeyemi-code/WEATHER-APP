@@ -1,6 +1,6 @@
 import DataContext from "@/context/DataContext";
 import { Check } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState, type MouseEventHandler } from "react";
 
 function Dropdown() {
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
@@ -9,8 +9,50 @@ function Dropdown() {
   const [isMilesPerHour, setIsMilesPerHour] = useState<boolean>(false);
   const [isMillimeters, setIsMillimeters] = useState<boolean>(true);
   const [isInches, setIsInches] = useState<boolean>(false);
-  const { setIsTemperatureUnit, setIsWindSpeedUnit, setIsPrecipitationUnit } =
-    useContext(DataContext)!;
+  const {
+    isTemperatureUnit,
+    setIsTemperatureUnit,
+    isWindSpeedUnit,
+    setIsWindSpeedUnit,
+    isPrecipitationUnit,
+    setIsPrecipitationUnit,
+    unitSystem,
+    setUnitSystem,
+  } = useContext(DataContext)!;
+
+  function toggleUnitSystem(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+
+    if (unitSystem === "Imperial") {
+      setIsTemperatureUnit("fahrenheit");
+      setIsCelsius(false);
+      setIsFahrenheit(true);
+
+      setIsWindSpeedUnit("mph");
+      setIsKilometerPerHour(false);
+      setIsMilesPerHour(true);
+
+      setIsPrecipitationUnit("inch");
+      setIsMillimeters(false);
+      setIsInches(true);
+
+      setUnitSystem("Metric");
+    } else {
+      setIsTemperatureUnit("celsius");
+      setIsFahrenheit(false);
+      setIsCelsius(true);
+
+      setIsWindSpeedUnit("kmh");
+      setIsKilometerPerHour(true);
+      setIsMilesPerHour(false);
+
+      setIsPrecipitationUnit("mm");
+      setIsMillimeters(true);
+      setIsInches(false);
+
+      setUnitSystem("Imperial");
+    }
+  }
 
   function toggleTemperatureUnit(e: React.MouseEvent<HTMLButtonElement>) {
     if (e.currentTarget.className.includes("celsius")) {
@@ -48,11 +90,43 @@ function Dropdown() {
     }
   }
 
+  useEffect(() => {
+    if (
+      isTemperatureUnit === "celsius" &&
+      isWindSpeedUnit === "kmh" &&
+      isPrecipitationUnit === "mm" &&
+      unitSystem === "Metric"
+    ) {
+      setUnitSystem("Imperial");
+      console.log(unitSystem);
+    }
+
+    if (
+      isTemperatureUnit === "Fahrenheit" &&
+      isWindSpeedUnit === "mph" &&
+      isPrecipitationUnit === "inch" &&
+      unitSystem === "Imperial"
+    ) {
+      setUnitSystem("Metric");
+      console.log(unitSystem);
+    }
+  }, [
+    isTemperatureUnit,
+    isWindSpeedUnit,
+    isPrecipitationUnit,
+    unitSystem,
+    setUnitSystem,
+  ]);
+
   return (
     <div className="absolute z-10 top-8 bg-(--neutral-800) p-2 my-2 text-(--neutral-0) text-sm rounded-lg w-50 border border-(--neutral-600)">
       <div>
-        <button type="button" className="w-full text-left">
-          Switch to Imperial
+        <button
+          onClick={toggleUnitSystem}
+          type="button"
+          className="w-full p-2 text-left font-medium rounded-lg focus:border border-(--neutral-0) hover:cursor-pointer hover:bg-(--neutral-700)"
+        >
+          Switch to {unitSystem}
         </button>
 
         <div className="mt-3 mb-1 border-b border-(--neutral-600)">
@@ -111,7 +185,7 @@ function Dropdown() {
                 <Check
                   className={`${!isKilometerPerHour ? "hidden" : "block"}`}
                   size={15}
-                  arial-hidden="ture"
+                  arial-hidden="true"
                 />
               </button>
             </li>

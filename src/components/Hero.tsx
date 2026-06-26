@@ -13,6 +13,7 @@ function Hero() {
     isSearchSuggestionOpen,
     setIsSearchSuggestionOpen,
     setIsSearchFocused,
+    setIsSearchError,
   } = useContext(DataContext)!;
 
   const filteredSearch =
@@ -38,8 +39,15 @@ function Hero() {
   }
 
   function handleSearchButton() {
-    setCity(searchedInput);
-    setSearchedInput("");
+    if (searchedInput && filteredSearch.length >= 1) {
+      setCity(searchedInput);
+      setSearchedInput("");
+      setIsSearchError(false);
+    } else {
+      setIsSearchError(
+        searchedInput.length >= 3 && !isLoading && filteredSearch.length === 0,
+      );
+    }
   }
 
   return (

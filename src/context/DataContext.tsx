@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 const DataContext = createContext<DataContextType | null>(null);
 
 export function DataProvider({ children }: ProviderProps) {
-  // const { data: geocoding } = useGeocoding;
   const [isUnitDropdownOpen, setIsUnitDropdownOpen] = useState(false);
   const [isSelectDayDropdownOpen, setIsSelectDayDropdownOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState("Tuesday");
@@ -18,6 +17,7 @@ export function DataProvider({ children }: ProviderProps) {
     city: "",
     country: "",
   });
+  const [unitSystem, setUnitSystem] = useState("Imperial");
   const [searchedInput, setSearchedInput] = useState("");
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isTemperatureUnit, setIsTemperatureUnit] = useState("celsius");
@@ -25,6 +25,7 @@ export function DataProvider({ children }: ProviderProps) {
   const [isPrecipitationUnit, setIsPrecipitationUnit] = useState("mm");
   const [isSearchSuggestionOpen, setIsSearchSuggestionOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isSearchError, setIsSearchError] = useState(false);
 
   const geocodingQuery = useQuery({
     queryKey: ["geocoding", city],
@@ -77,6 +78,10 @@ export function DataProvider({ children }: ProviderProps) {
         setSearchedInput,
         isSearchFocused,
         setIsSearchFocused,
+        isSearchError,
+        setIsSearchError,
+        unitSystem,
+        setUnitSystem,
       }}
     >
       {children}

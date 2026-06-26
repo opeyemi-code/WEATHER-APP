@@ -29,21 +29,30 @@ function GpsLocation() {
           `https://nominatim.openstreetmap.org/reverse?lat=${newLocation.latitude}&lon=${newLocation.longitude}&format=json`,
         );
 
-        const data = await res.json();
+        try {
+          if (res.ok) {
+            const data = await res.json();
 
-        const address = data.address;
+            const address = data.address;
 
-        setLocationInfo({
-          city:
-            address.city || address.town || address.village || address.county,
+            setLocationInfo({
+              city:
+                address.city ||
+                address.town ||
+                address.village ||
+                address.county,
 
-          country: address.country,
-        });
+              country: address.country,
+            });
 
-        setIsSearchSuggestionOpen(false);
-        setIsSearchFocused(false);
+            setIsSearchSuggestionOpen(false);
+            setIsSearchFocused(false);
 
-        console.log(newLocation);
+            console.log(newLocation);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       },
 
       (error) => {

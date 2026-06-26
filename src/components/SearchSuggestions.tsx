@@ -18,6 +18,7 @@ function SearchSuggestions({
     setLocationInfo,
     setIsSearchSuggestionOpen,
     isSearchFocused,
+    setIsSearchError,
   } = useContext(DataContext)!;
 
   function getLocation(city: GeocodingResult) {
@@ -33,6 +34,7 @@ function SearchSuggestions({
     });
 
     setIsSearchSuggestionOpen(false);
+    setIsSearchError(false);
     setSearchedInput("");
   }
 
@@ -43,7 +45,7 @@ function SearchSuggestions({
       ) : isLoading ? (
         <SearchedresultsLoadingState />
       ) : (
-        <ul className="text-(--neutral-200) text-sm space-y-3">
+        <ul className="text-(--neutral-200) text-sm space-y-3 h-40 overflow-y-scroll">
           {searchedResults.map((city) => (
             <li
               key={`${city.latitude}-${city.longitude}`}

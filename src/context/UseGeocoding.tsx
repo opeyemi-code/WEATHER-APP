@@ -19,7 +19,7 @@ function useGeocoding() {
 
     queryFn: () =>
       fetch(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${searchedInput}&count=4&language=en&format=json`,
+        `https://geocoding-api.open-meteo.com/v1/search?name=${searchedInput}&language=en&format=json`,
       ).then((res) => res.json()),
   });
 }
