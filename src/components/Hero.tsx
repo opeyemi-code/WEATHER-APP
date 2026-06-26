@@ -30,13 +30,6 @@ function Hero() {
     }
   }
 
-  // function handleFocus() {
-  //   if (searchedInput) {
-  //     setIsSearchSuggestionOpen(true);
-  //     setIsSearchFocused(true);
-  //   }
-  // }
-
   function handleBlur() {
     setTimeout(() => {
       setIsSearchSuggestionOpen(false);
@@ -48,8 +41,6 @@ function Hero() {
     setCity(searchedInput);
     setSearchedInput("");
   }
-
-  // useEffect(() => console.log(city));
 
   return (
     <section className="flex flex-col items-center justify-center my-15 mx-auto lg:w-[70%]">

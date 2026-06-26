@@ -1,42 +1,61 @@
 import { useContext } from "react";
 import locationIcon from "../assets/images/icon-location.svg";
 import DataContext from "@/context/DataContext";
-import useOpenStreetMap from "@/context/UseOpenStreetMap";
 
 function GpsLocation() {
-  const { location, setLocation, setLocationInfo } = useContext(DataContext)!;
-  const { data: reverseGeocoding } = useOpenStreetMap();
+  const {
+    setLocation,
+    setLocationInfo,
+    setIsSearchFocused,
+    setIsSearchSuggestionOpen,
+  } = useContext(DataContext)!;
 
-  function getUserLocation(e: React.MouseEvent<HTMLButtonElement>) {
+  async function getUserLocation(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { address } = reverseGeocoding;
-          const newLocation = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.latitude,
-          };
+    if (!("geolocation" in navigator)) return;
 
-          setLocation(newLocation);
-          setLocationInfo({
-            city:
-              address.city || address.town || address.village || address.county,
-            country: address.country,
-          });
-          console.log(newLocation, location, address);
-        },
-        (error) => {
-          console.log("Permission denied:", error.message);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0,
-        },
-      );
-    }
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const newLocation = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+
+        setLocation(newLocation);
+
+        // Reverse geocode AFTER getting coords
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${newLocation.latitude}&lon=${newLocation.longitude}&format=json`,
+        );
+
+        const data = await res.json();
+
+        const address = data.address;
+
+        setLocationInfo({
+          city:
+            address.city || address.town || address.village || address.county,
+
+          country: address.country,
+        });
+
+        setIsSearchSuggestionOpen(false);
+        setIsSearchFocused(false);
+
+        console.log(newLocation);
+      },
+
+      (error) => {
+        console.log(error.message);
+      },
+
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      },
+    );
   }
 
   return (
@@ -52,4 +71,5 @@ function GpsLocation() {
     </button>
   );
 }
+
 export default GpsLocation;

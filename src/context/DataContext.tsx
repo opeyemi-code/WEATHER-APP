@@ -48,22 +48,6 @@ export function DataProvider({ children }: ProviderProps) {
     }
   }, [geocodingQuery.data, city]);
 
-  useEffect(() => {
-    if (!("geolocation" in navigator)) {
-      console.log("Geolocation is not supported by this browser");
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      () => {
-        console.log("Permission granted");
-      },
-      (error) => {
-        console.log("Permission denied:", error.message);
-      },
-    );
-  }, []);
-
   return (
     <DataContext.Provider
       value={{
